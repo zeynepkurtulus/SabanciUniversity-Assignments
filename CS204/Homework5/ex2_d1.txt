@@ -1,0 +1,4 @@
+Dog 2
+Cat 3
+Mouse 1
+Horse 4
