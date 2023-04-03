@@ -1,0 +1,15 @@
+q.txt
+Qr5.txt
+qr_test1.txt
+p.txt
+p2.txt
+price_test1.txt
+shopList_test1.txt
+*****
+qr_test2.txt
+price_test2.txt
+shopList_test2.txt
+*****
+qr_test3.txt
+price_test3.txt
+shopList_test3.txt
