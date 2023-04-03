@@ -1,0 +1,14 @@
+c
+5 5
+uc 1 5 5 a
+uc 2 0 1 p
+uc 1 0 1 c
+d
+ucs 1 b
+d
+uc 2 2 2 z
+unc 1 0 0
+d
+ucs 3 e
+ucs 2 e
+d

@@ -1,0 +1,13 @@
+c
+9 6
+ucs 2 t
+uc 3 1 1 j
+d
+uc 1 1 2 g
+uc 1 0 4 k
+uc 2 3 4 m
+d
+uc 2 7 4 b
+d
+uncs 1
+d
