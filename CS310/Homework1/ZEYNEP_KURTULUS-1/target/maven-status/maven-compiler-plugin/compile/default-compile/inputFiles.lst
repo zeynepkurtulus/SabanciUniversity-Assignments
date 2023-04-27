@@ -1,0 +1,12 @@
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/ZeynepKurtulus1Application.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/model/Transaction.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/model/textResponse.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/repo/AccountRepository.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/model/Account.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/controller/BankingRestController.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/model/TransactionHelper.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/model/transactionEmbeddedAccount.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/model/summaryHolder.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/model/textResponseTransaction.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/model/accountSum.java
+/Users/zeynepkurtulus/Desktop/CS/CS310/ZEYNEP_KURTULUS-1/src/main/java/com/sabanciuniv/repo/TransactionRepository.java
