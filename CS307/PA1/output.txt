@@ -1,0 +1,8 @@
+       -w, --word-regexp
+              Select  only  those  lines  containing  matches that form whole
+              words.  The test is that the matching substring must either  be
+              at  the  beginning  of  the  line,  or  preceded  by a non-word
+              constituent character.  Similarly, it must be either at the end
+              of  the  line  or followed by a non-word constituent character.
+              Word-constituent  characters  are  letters,  digits,  and   the
+              underscore.  This option has no effect if -x is also specified.
