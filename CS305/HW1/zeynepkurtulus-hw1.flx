@@ -1,0 +1,169 @@
+tIDENT [_a-zA-Z][_a-zA-Z0-9]*
+tSTRING ["][^"]*["]
+tMAIL Mail
+tSCHEDULE schedule
+tSEND send
+tFROM from
+tENDMAIL "end Mail"
+tENDSCHEDULE "end schedule"
+tTO to
+tSET set
+tAT "@"
+tCOMMA ","
+tCOLON ":"
+tLPR "("
+tRPR ")"
+tLBR "["
+tRBR "]"
+
+tADDRESS [a-zA-Z0-9_\-]+([\.][a-zA-Z0-9_\-]+)*@[a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])*([\.][a-zA-Z0-9]([\-a-zA-Z0-9]*[a-zA-Z0-9])*){1,2}
+
+tDATE [0-9]{2}\/[0-9]{2}\/[0-9]{4}
+tTIME [0-9]{2}":"[0-9]{2}
+%{
+    #include <stdio.h>
+   int noLines = 1;
+  int insideComment = 0;   
+
+%}
+
+
+%x COMMENT_SINGLELINE COMMENT_MULTILINE
+%%
+\n		noLines++;
+"//"            BEGIN(COMMENT_SINGLELINE);
+"/*"            {
+	//noLines++;
+    if (insideComment == 0) {
+        insideComment = 1;
+        BEGIN(COMMENT_MULTILINE);
+    }
+    else {
+        insideComment++;
+    }
+}
+<COMMENT_SINGLELINE>. {
+    // Do not generate any output for characters within a single-line comment.
+
+}
+<COMMENT_SINGLELINE>\n {
+    BEGIN 0;  // Return to the initial state at the end of the line.
+    noLines++;
+}
+
+
+<COMMENT_MULTILINE>"/*" {
+   //noLines++;
+   if(insideComment == 0){
+      insideComment = 1;
+
+   }
+   else{
+     insideComment++;
+  }
+}
+
+
+<COMMENT_MULTILINE>"*/" {
+   // noLines++;
+    if (insideComment > 0) {
+        // Decrease the nested comment level
+        insideComment--;
+       
+    }
+    else {
+        insideComment = 0;
+        BEGIN 0;
+    }
+}
+
+<COMMENT_MULTILINE>[^*\n]+ {
+    // Do not generate any output for characters within a multiline comment.
+}
+
+<COMMENT_MULTILINE>\n {
+	noLines++;
+    // Do not increment the line counter within a multi-line comment.
+}
+<COMMENT_MULTILINE>"*"+[^*/\n]+ {
+    // Do not generate any output for characters within a multiline comment.
+}
+
+{tTIME}		{
+                // Extract the hour and minute components
+                int hour, min;
+                sscanf(yytext, "%d:%d", &hour, &min);
+
+                // Print the formatted time
+                printf("%d_tTIME_(Hour_%02d_Minute_%02d)\n", noLines, hour, min);
+                
+
+
+
+		}
+{tDATE} {
+    // Extract the day, month, and year components
+    int day, month, year;
+    sscanf(yytext, "%d/%d/%d", &day, &month, &year);
+
+    // Print the formatted date with the month number
+    printf("%d_tDATE_(Day_%02d_Month_%02d_Year_%d)\n", noLines, day, month, year);
+}
+{tSCHEDULE}	printf("%d_tSCHEDULE\n", noLines);
+{tADDRESS}	printf("%d_tADDRESS_(%s)\n", noLines, yytext);
+{tMAIL}		printf("%d_tMAIL\n", noLines);
+{tSET}		printf("%d_tSET\n", noLines);
+{tCOMMA}	printf("%d_tCOMMA\n", noLines);
+{tCOLON}	printf("%d_tCOLON\n", noLines);
+{tAT}		printf("%d_tAT\n", noLines);
+{tRBR}		printf("%d_tRBR\n", noLines);
+{tLBR}		printf("%d_tLBR\n", noLines);
+{tLPR}          printf("%d_tLPR\n", noLines);
+{tRPR}          printf("%d_tRPR\n", noLines);
+{tTO}		printf("%d_tTO\n", noLines);
+{tENDSCHEDULE}	printf("%d_tENDSCHEDULE\n", noLines);
+{tENDMAIL}	printf("%d_tENDMAIL\n", noLines);
+{tSEND}		printf("%d_tSEND\n", noLines);
+{tFROM}		printf("%d_tFROM\n", noLines);
+{tSTRING}	{
+                char sub[1000];
+                int position = 2;
+                int length = yyleng - 2;
+                int c = 0;
+                while(c < length)
+                {
+                        sub[c] = yytext[position+c-1];
+                        c++;
+                }
+                sub[c] = '\0';
+
+                printf("%d_tSTRING_(%s)\n", noLines,sub);
+
+                if (strchr(yytext, '\n')) noLines++;
+                }
+{tIDENT}	printf("%d_tIDENT_(%s)\n", noLines, yytext);
+
+
+
+[ \t\n]   ;  // Do nothing for tab, space, and newline characters
+
+. {
+    if (!insideComment) {
+        // Handle other characters when not inside a comment
+         printf("%d_ILLEGAL_CHARACTER_(%s)\n", noLines, yytext);
+    }    // This rule matches any other character, treating it as an illegal character.
+
+}
+
+
+
+
+%%
+
+int main()
+{
+
+	yylex();
+	return(0);		
+
+}
