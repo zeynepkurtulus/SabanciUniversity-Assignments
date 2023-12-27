@@ -1,0 +1,141 @@
+
+
+%{
+#include "zeynepkurtulus-hw3.h"    
+#include "zeynepkurtulus-hw3.tab.h" 
+
+int lineCount = 1;
+
+%}
+
+tLOCALPART [A-Za-z0-9\-_]+(([A-Za-z0-9\-_]*|\.?)[A-Za-z0-9\-_])*
+tDOMAIN [A-Za-z0-9]+[A-Za-z0-9\-]*[A-Za-z0-9]+|[A-Za-z0-9]{1}
+
+%%
+
+"Mail" return tMAIL;
+"end Mail" return tENDMAIL;
+"schedule" return tSCHEDULE;
+"end schedule" return tENDSCH;
+"send" return  tSEND;
+"set" return tSET;
+"to" return tTO;
+"from" return tFROM;
+@ return tAT;
+, return tCOMMA;
+: return tCOLON;
+\( return tLPR;
+\) return tRPR;
+\[ return tLBR;
+\] return tRBR;
+
+[a-zA-Z\_]+[a-zA-Z0-9\_]* { 
+    
+
+    char *result = (char *)malloc(strlen(yytext));
+    strcpy(result,yytext);
+    yylval.identNode.lineNum = lineCount;
+    yylval.identNode.value = result;
+
+    return tIDENT ;
+}
+
+["][^\"]*["]  {
+    
+    char *result = (char *)malloc(strlen(yytext));
+    yylval.lineNum = lineCount;
+    strcpy(result,yytext);
+    yylval.stringNode.value = result;
+    
+    
+    return tSTRING ;
+}
+
+
+[0-9]{2}"/"[0-9]{2}"/"[0-9]{4} {
+    char *result = (char *)malloc(strlen(yytext));
+
+    if(yytext[3] == '1') {
+        if(yytext[4] == '0'){
+            strcpy(result,"October");
+            yylval.dateNode.month = result;
+        }    
+    }
+
+    else if(yytext[3] == '1') {
+        if(yytext[4] == '1'){
+            strcpy(result,"November");
+            yylval.dateNode.month = result;
+        }    
+    }   
+
+    else if(yytext[3] == '1') {
+        if(yytext[4] == '2'){
+            strcpy(result,"December");
+            yylval.dateNode.month = result;
+        }    
+    }
+
+    else if(yytext[4] == '1') {
+        strcpy(result,"January");
+        yylval.dateNode.month = result;
+    }
+    else if(yytext[4] == '2') {
+        strcpy(result,"February");
+        yylval.dateNode.month = result;
+    }
+    else if(yytext[4] == '3') {
+        strcpy(result,"March");
+        yylval.dateNode.month = result;
+    }
+    else if(yytext[4] == '4') {
+        strcpy(result,"April");
+        yylval.dateNode.month = result;
+    }        
+    else if(yytext[4] == '5') {
+        strcpy(result,"May");
+        yylval.dateNode.month = result;
+    }
+    else if(yytext[4] == '6') {
+        strcpy(result,"June");
+        yylval.dateNode.month = result;
+    }
+    else if(yytext[4] == '7') {
+        strcpy(result,"July");
+        yylval.dateNode.month = result;
+    }
+    else if(yytext[4] == '8') {
+        strcpy(result,"August");
+        yylval.dateNode.month = result;
+    }            
+    else if(yytext[4] == '9') {
+        strcpy(result,"September");
+        yylval.dateNode.month = result;
+    }
+    /*
+    char *result2 = (char *)malloc(strlen(yytext));
+    strcpy(result2,yytext[0][1]);
+    yylval.dateNode.day = result2;
+    
+    char *result3 = (char *)malloc(strlen(yytext));
+    strcpy(result3,yytext[6:]);
+    yylval.dateNode.year = result3; */
+
+
+
+
+    return tDATE 
+;}
+[0-9]{2}:[0-9]{2} return tTIME;
+
+{tLOCALPART}"@"({tDOMAIN}"."{tDOMAIN}"."{tDOMAIN}|{tDOMAIN}"."{tDOMAIN}) {
+    char *result = (char *)malloc(strlen(yytext));
+    strcpy(result,yytext);
+    yylval.adressNode.mail = result;
+    return tADDRESS;
+}
+
+[\n] lineCount += 1; 
+[\t ] ; 
+.			return yytext[0];
+%%
